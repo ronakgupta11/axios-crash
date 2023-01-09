@@ -68,6 +68,12 @@ function getTodos() {
   }
   
   // INTERCEPTING REQUESTS & RESPONSES
+  axios.interceptors.request.use(
+    config => {
+    console.log(`${config.method.toUpperCase()} request sent to ${config.url} at ${new Date().getTime()}`)
+    return config;
+},error => {Promise.reject(error)}
+);
   
   // AXIOS INSTANCES
   
