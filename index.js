@@ -1,3 +1,7 @@
+//Axios Global
+
+axios.defaults.headers.common["X-Auth-Token"] = "someToken";
+
 // GET REQUEST
 function getTodos() {
     axios({
@@ -49,7 +53,15 @@ function getTodos() {
   
   // CUSTOM HEADERS
   function customHeaders() {
-    console.log('Custom Headers');
+    const config= {
+      headers : {
+        "Content-Type":"Application/JSON",
+        Authorization:"someToken"
+      }
+    }
+    axios.post("https://jsonplaceholder.typicode.com/todos",{title:"MY TODO",completed:false},config)
+    .then(res => showOutput(res))
+    .catch(err =>console.error(err))
   }
   
   // TRANSFORMING REQUESTS & RESPONSES
@@ -59,7 +71,22 @@ function getTodos() {
   
   // ERROR HANDLING
   function errorHandling() {
-    console.log('Error Handling');
+    axios({
+      method:"get",
+      url:"https://jsonplaceholder.typicode.com/todoss",
+      params:{
+          _limit:5
+      }
+  })
+  .then(res=>showOutput(res))
+  .catch(error=>{
+    if(error.response){
+      // server responded with status other than 200 range
+      console.error(error.response.data);
+      console.error(error.response.status);
+      console.error(error.response.headers)
+    }
+  });
   }
   
   // CANCEL TOKEN
